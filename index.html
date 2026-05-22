@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Копырин А.И. Николаев К.Г.</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__brand">
+        <img src="logo-svfu.png" alt="Логотип СВФУ" class="hero__logo" />
+      </div>
+      <div class="hero__text">
+      <p class="eyebrow">Институт Зарубежной Филологии и Регионоведения</p>
+      <h1>Банк заданий с применением корпусных технологий</h1>
+      <p>для учащихся старших классов</p>
+      <div class="hero__buttons">
+        <a class="button button-primary" href="#instructions">Как пользоваться</a>
+        <a class="button" href="https://www.sketchengine.eu/" target="_blank" rel="noopener">Открыть Sketch Engine</a>
+      </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="instructions" class="panel">
+      <h2>Инструкция по работе со Sketch Engine</h2>
+      <ol class="steps">
+        <li><strong>Откройте Sketch Engine</strong> по кнопке выше и войдите в аккаунт. Для работы нужно выбрать готовый англоязычный корпус, British National Corpus.</li>
+        <li><strong>Для значения слова по контексту</strong> используйте Concordance: введите слово, изучите строки KWIC и сравните разные контексты употребления.</li>
+        <li><strong>Для коллокаций</strong> используйте Word Sketch: введите ключевое слово и посмотрите типичные сочетания, сгруппированные по грамматическим отношениям.</li>
+        <li><strong>Для частотных слов</strong> используйте Word List: задайте тему/корпус и отсортируйте результаты по частотности.</li>
+        <li><strong>Записывайте доказательство</strong>: 1-2 примера из корпуса, частотность или типичное сочетание. Это поможет объяснить ответ, а не просто угадать его.</li>
+      </ol>
+    </section>
+
+    <section class="toolbar panel">
+      <label>Поиск по заданиям
+        <input id="searchInput" type="search" placeholder="например: decision, press, collocation" />
+      </label>
+      <label>Блок
+        <select id="blockFilter">
+          <option value="all">Все блоки</option>
+        </select>
+      </label>
+      <label>Сложность
+        <select id="levelFilter">
+          <option value="all">Все уровни</option>
+          <option value="Базовый">Базовый</option>
+          <option value="Средний">Средний</option>
+          <option value="Повышенный">Повышенный</option>
+        </select>
+      </label>
+      <button id="resetBtn" class="button">Сбросить</button>
+    </section>
+    <section id="stats" class="stats"></section>
+    <section id="tasksRoot" class="tasks"></section>
+  </main>
+
+  <footer>
+    <p>Работа выполнена студентами ИЗФиР Б-АПО-21-561 Копыриным Алеандром и Николаевым Кириллом</p>
+  </footer>
+
+  <script>
+    window.TASK_DATA = [
+  {
+    "id": 1,
+    "title": "Значение слова по контексту",
+    "description": "В этом блоке учащиеся научатся определять значение незнакомых слов, ориентируясь на контекст предложения или текста. Навыки понимания значения слова помогают расширять словарный запас и повышают уровень понимания языка.",
+    "exercises": [
+      {
+        "number": 1,
+        "body": "Using the BNC corpus, select the 5 most frequent words related to the topic \"Education.\" Use these words to make sentences reflecting typical contexts in which they are used.",
+        "level": "Средний"
+      },
+      {
+        "number": 2,
+        "body": "Read the sentence below:\n\"The modular design allows for easy assembly and disassembly by reducing the overall complexity of the structure.\" Open the BNC and determine what the word “assembly” means in Russian in this context?\n1) Разборка\n2) Монтаж\n3) Объединение\n4) Проверка",
+        "level": "Повышенный"
+      },
+      {
+        "number": 3,
+        "body": "Open the BNC and find the word “case” in the KWIC tag. Read the sentences (1-3) below and match them to the meanings (a-c) of the word in each context.\n1) In any case, I feel I have moved on from there.\n2) The doctors told me I had a very bad case of food poisoning.\n3) His case is packed with the Crown Jewels, but Drebin, naturally, is only interested in the bottles of chilled Red Rock.\na) случай; b) чемодан; c) дело",
+        "level": "Повышенный"
+      },
+      {
+        "number": 4,
+        "body": "Open the BNC and find the word “stand”. Select two meanings in which this word is used, write out these sentences from the BNC.\n1) точка зрения\n2) обвинение\n3) киоск",
+        "level": "Базовый"
+      },
+      {
+        "number": 5,
+        "body": "Match each sentence (1-3) with the correct definition (a-c) of the word “blank” using the BNC.\n1) No, he just looked at everybody blank.\n2) The blank bullet ripped through her jeans, burned her leg and sent her sprawling on the floor.\n3) The canvas was completely blank, awaiting the artist's first stroke.\na) незаполненность; b) пустой взгляд; c) чистота",
+        "level": "Повышенный"
+      },
+      {
+        "number": 6,
+        "body": "Choose the correct sense of the word “press” to complete the dialogue.\nReporter: The ___ wants your comment.\n1) button\n2) media\n3) iron\n4) machine",
+        "level": "Средний"
+      },
+      {
+        "number": 7,
+        "body": "Match the sentence to the best meaning of the word “wave”.\nOcean waves carry energy from storms to shore.\n1) Hand gesture\n2) Sea swell\n3) Radio signal\n4) Hairstyle",
+        "level": "Средний"
+      },
+      {
+        "number": 8,
+        "body": "Read the full sentence carefully. Notice the sports context with \"swung\" and \"home run\". Choose the best option. Write your letter answer.\nShe swung the bat hard and hit a home run in the baseball game.\na) animal\nb) sports equipment\nc) cleaning tool\nd) light switch",
+        "level": "Средний"
+      },
+      {
+        "number": 9,
+        "body": "Read the sentence about the restaurant situation. Write 2-3 words describing what \"bill\" means here (not copying the word itself).\nThe waiter brought the bill. Let's split it three ways after dinner.",
+        "level": "Базовый"
+      },
+      {
+        "number": 10,
+        "body": "Read the statement and think about the context. Decide TRUE or FALSE. If FALSE, write what \"draw\" really means here.\nThe artist began to draw money from the bank.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 11,
+        "body": "Read the context with. Match to the correct meaning by writing the letter.\nThe judge made a fair decision based on evidence.\na) festival\nb) just\nc) blonde hair\nd) carnival game",
+        "level": "Средний"
+      },
+      {
+        "number": 12,
+        "body": "Read about the shop storage. Write one synonym for \"stock\" in this retail situation.\nThe shop keeps extra stock in the back room for Christmas sales.",
+        "level": "Базовый"
+      },
+      {
+        "number": 13,
+        "body": "Read the full sentence about the wet dog. Notice the physical action. Choose and write the letter.\nThe dog shook water off its bark after the rain.\na) sound\nb) tree covering\nc) small boat\nd) shout",
+        "level": "Средний"
+      },
+      {
+        "number": 14,
+        "body": "Read the biology context about fish protection. Rewrite the sentence replacing \"scales\" with a synonym.\nFish have shiny scales that protect their bodies from predators.",
+        "level": "Средний"
+      },
+      {
+        "number": 15,
+        "body": "Read the full dialogue with the reporter. Write 1-2 words for what \"press\" means in journalism.\nReporter: \"The press is waiting outside for your statement.\"",
+        "level": "Базовый"
+      },
+      {
+        "number": 16,
+        "body": "Read the ocean and surfing description. Decide TRUE or FALSE based on context.\nOcean waves crash against the rocks as surfers ride them.\nTRUE/FALSE: Waves = hairstyles",
+        "level": "Базовый"
+      },
+      {
+        "number": 17,
+        "body": "Read about the finger jewelry.\nShe wore a gold ring on her finger that sparkled in sunlight.\nCircle the correct meaning: jewelry, phone sound, criminal gang.",
+        "level": "Средний"
+      },
+      {
+        "number": 18,
+        "body": "Read the sports victory context. Choose the best option A/B/C/D and write the letter.\nGreat point won the tennis match for our team!\nA) indicate\nB) score\nC) geographical cape\nD) main idea",
+        "level": "Средний"
+      },
+      {
+        "number": 19,
+        "body": "Read the travel planning sentence. Write one synonym for \"trip\" here.\nTheir Paris trip was unforgettable despite flight delays.",
+        "level": "Базовый"
+      },
+      {
+        "number": 20,
+        "body": "Read the coffee preparation process. Write what \"ground\" means in this kitchen context.\nThe coffee ground was too coarse, so she ground it finer.",
+        "level": "Базовый"
+      },
+      {
+        "number": 21,
+        "body": "Read the rural water source description. Decide TRUE or FALSE.\nVillagers drew water from the old well every morning.\nTRUE/FALSE: Correct meaning used",
+        "level": "Средний"
+      },
+      {
+        "number": 22,
+        "body": "Read the car parking conversation. Write what \"park\" means (verb or noun?).\nA: Where'd you park the car?\nB: Near the shop entrance.",
+        "level": "Базовый"
+      },
+      {
+        "number": 23,
+        "body": "Read about the literary meetings. Choose A/B/C/D and write the letter.\nShe joined the book club to discuss novels weekly.\nA) weapon\nB) group\nC) playing cards\nD) nightclub",
+        "level": "Средний"
+      },
+      {
+        "number": 24,
+        "body": "Read the art creation context. Write a synonym for \"draw\" here.\nArtist will draw your portrait in charcoal.",
+        "level": "Базовый"
+      },
+      {
+        "number": 25,
+        "body": "Read the retail storage description. Decide TRUE or FALSE.\nShop stock stored in back room for busy seasons.\nTRUE/FALSE: Means financial shares",
+        "level": "Средний"
+      },
+      {
+        "number": 26,
+        "body": "Read about the clock repair. Write what \"spring\" means in mechanics.\nClock spring finally broke after years of use.",
+        "level": "Средний"
+      },
+      {
+        "number": 27,
+        "body": "Read the birthday ceremony. Choose A/B/C/D and write the letter.\nShe light the birthday candles for her son.\nA) bright color\nB) ignite\nC) lightweight\nD) lamp",
+        "level": "Базовый"
+      },
+      {
+        "number": 28,
+        "body": "Read the sports event duration. Write what \"match\" means here.\nTennis match lasted three hours in hot sun.",
+        "level": "Средний"
+      },
+      {
+        "number": 29,
+        "body": "Read the wedding planning. Rewrite replacing \"date\" with a synonym.\nWedding date set for next June in countryside.",
+        "level": "Средний"
+      },
+      {
+        "number": 30,
+        "body": "Read the fish biology. Decide TRUE or FALSE.\nFish scale protects against predators.\nTRUE/FALSE: Means weighing scales",
+        "level": "Базовый"
+      },
+      {
+        "number": 31,
+        "body": "Read the portrait painting dialogue. Write what \"draw\" means.\nArtist: \"I'll draw your portrait now.\"",
+        "level": "Базовый"
+      },
+      {
+        "number": 32,
+        "body": "Read about journalists gathering. Write the meaning of \"press\".\nThe press waited outside government building.",
+        "level": "Базовый"
+      },
+      {
+        "number": 33,
+        "body": "Read the employment context. Choose A/B/C/D and write the letter.\nFactory plant employs 500 local workers.\nA) flower\nB) factory\nC) secret plot\nD) tree",
+        "level": "Базовый"
+      },
+      {
+        "number": 34,
+        "body": "Read the physics description. Write a synonym for \"current\".\nElectric current measured in amperes through wire.",
+        "level": "Средний"
+      },
+      {
+        "number": 35,
+        "body": "Read the vacation planning. Decide TRUE or FALSE.\nThey planned Paris trip for anniversary celebration.\nTRUE/FALSE: Correct travel meaning",
+        "level": "Повышенный"
+      },
+      {
+        "number": 36,
+        "body": "Read about storage. Write what \"box\" means here.\nWooden box held old family photos inside.",
+        "level": "Средний"
+      },
+      {
+        "number": 37,
+        "body": "Read the courtroom situation. Write a synonym for \"fair\".\nJudge made fair decision after hearing evidence.",
+        "level": "Средний"
+      },
+      {
+        "number": 38,
+        "body": "Read the BNC medical context. Translate \"diagnosis\" into Russian based on context.\n\"The doctor confirmed the diagnosis of pneumonia after examining the chest X-ray.\"\n1) Симптом\n2) Диагноз\n3) Лечение\n4) Анализ",
+        "level": "Повышенный"
+      },
+      {
+        "number": 39,
+        "body": "Read three BNC sentences with \"course\". Match to meanings A-C.\n1) She enrolled on a French course at the local college.\n2) The river changed course after the flood.\n3) Of course I'll help you with your homework.\nA) направление\nB) курс обучения\nC) конечно",
+        "level": "Средний"
+      },
+      {
+        "number": 40,
+        "body": "Read the BNC instruction. Find 4 most common \"Technology\" collocations and write sentences.\n(возможные ответы: information technology, new technology, advanced technology, modern technology)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 41,
+        "body": "Read the BNC context. Choose correct Russian meaning of \"charge\".\n\"The police decided not to press charges after investigating the incident.\"\n1) Заряд\n2) Обвинение\n3) Плата\n4) Задание",
+        "level": "Средний"
+      },
+      {
+        "number": 42,
+        "body": "Read BNC sentences with \"file\". Match 1-3 to meanings a-c.\n1) She opened the confidential file on her desk.\n2) The nail file was in her makeup bag.\n3) Please file these documents alphabetically.\na) папка\nb) напильник\nc) подшивать",
+        "level": "Повышенный"
+      },
+      {
+        "number": 43,
+        "body": "Read about BNC KWIC for \"term\". Match sentences to meanings.\n1) The president served a second term.\n2) What's the medical term for this condition?\n3) School term starts next Monday.\nA) период\nB) семестр\nC) термин",
+        "level": "Повышенный"
+      },
+      {
+        "number": 44,
+        "body": "Read the BNC engineering example. Determine Russian meaning of \"draft\".\n\"The architect prepared the first draft of the building plans.\"\n1) Дуновение\n2) Черновик\n3) Призыв\n4) Черновик пива",
+        "level": "Средний"
+      },
+      {
+        "number": 45,
+        "body": "Read BNC instruction for \"Environment\" topic. List top 5 words + example sentences.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 46,
+        "body": "Read three BNC uses of \"board\". Match to correct meanings.\n1) The management board met yesterday.\n2) She wiped the whiteboard clean.\n3) I need some plywood board for the shelf.\na) совет\nb) доска\nc) материал",
+        "level": "Повышенный"
+      },
+      {
+        "number": 47,
+        "body": "Read the academic BNC context. Choose Russian equivalent for \"abstract\".\n\"Please submit an abstract of your research paper by Friday.\"\n1) Абстрактное искусство\n2) Аннотация\n3) Отвлеченный\n4) Реферат",
+        "level": "Базовый"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Формирование навыков употребления коллокаций",
+    "description": "Второй блок направлен на формирование и закрепление у обучающихся навыка активного использования коллокаций в речи.",
+    "exercises": [
+      {
+        "number": 1,
+        "body": "Fill in the gaps with a suitable collocation (Based on case examples):\nShe finally ___ a decision.\nThe government ___ measures to improve education.\nThe committee finally ___ an agreement after long discussions.\nStudents should ___ responsibility for their learning.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 2,
+        "body": "Rephrase the sentences using the collocations in the BNC:\nShe decided after a long discussion.\n → She ___ after a long discussion.\nThey tried to solve the problem.\n → They ___ to solve the problem.",
+        "level": "Базовый"
+      },
+      {
+        "number": 3,
+        "body": "Choose the appropriate verb to form a normative collocation:\nto ___ progress (make / do)\nto ___ attention (pay / give)\nto ___ research (conduct / do)",
+        "level": "Средний"
+      },
+      {
+        "number": 4,
+        "body": "Fill in the gap with the missing part of the collocation based on the corpus examples.\nheavy ___\nmake a ___\nsolve a ___",
+        "level": "Базовый"
+      },
+      {
+        "number": 5,
+        "body": "Replace the highlighted words with collocations.\nThe students looked carefully at the instructions.\n → The students ___ to the instructions.\nHe got better results after training.\n → He ___ after training.",
+        "level": "Базовый"
+      },
+      {
+        "number": 6,
+        "body": "Rephrase the sentences by changing the grammatical form, but keeping the collocation:\nThe company made a decision quickly.\n → A decision ___ quickly.\nThe students made progress during the course.\n → Progress ___ during the course.\nThe researchers conducted research in this field.\n → Research ___ in this field.\nThe government took measures to improve the situation.\n → Measures ___ to improve the situation.",
+        "level": "Базовый"
+      },
+      {
+        "number": 7,
+        "body": "Complete the sentences using appropriate collocations (based on BNC):\nScientists ___ attention to the problem of climate change.\nThe company ___ an important role in the development of the project.\nThe students ___ an effort to improve their results.",
+        "level": "Базовый"
+      },
+      {
+        "number": 8,
+        "body": "Choose the correct collocation according to corpus usage:\nto ___ a mistake (make / do)\nto ___ a conclusion (reach / get)\nto ___ influence on someone (have / take)",
+        "level": "Базовый"
+      },
+      {
+        "number": 9,
+        "body": "Rephrase the sentences using a suitable collocation from the BNC:\nHe tried very hard to finish the task on time.\n → He ___ to finish the task on time.\nThe discussion helped them come to an agreement.\n → The discussion helped them ___ an agreement.",
+        "level": "Базовый"
+      },
+      {
+        "number": 10,
+        "body": "Match the nouns with the verbs they typically collocate with (based on BNC):",
+        "level": "Средний"
+      },
+      {
+        "number": 11,
+        "body": "Fill in the gaps with a suitable collocation (Based on BNC):\n1) The team ___ a breakthrough in their experiments.\n2) Environmentalists ___ pressure on the government.\n3) She ___ a complaint about the pollution.\n4) We need to ___ changes to the plan.",
+        "level": "Средний"
+      },
+      {
+        "number": 12,
+        "body": "Rephrase the sentences using the collocations in the BNC:\n1) They improved their skills after practice.\n→ They ___ after practice.\n2) The report caused a strong reaction.\n→ The report ___ a strong reaction.",
+        "level": "Базовый"
+      },
+      {
+        "number": 13,
+        "body": "Choose the appropriate verb to form a normative collocation:\n1) to ___ damage\n2) to ___ a promise\n3) to ___ an impact",
+        "level": "Средний"
+      },
+      {
+        "number": 14,
+        "body": "Fill in the gap with the missing part of the collocation based on the corpus examples.\n1) strong ___\n2) make a ___\n3) solve a ___",
+        "level": "Базовый"
+      },
+      {
+        "number": 15,
+        "body": "Replace the highlighted words with collocations.\n1) The robot did tasks reliably.\n2) They checked the data closely.",
+        "level": "Базовый"
+      },
+      {
+        "number": 16,
+        "body": "Rephrase the sentences by changing the grammatical form, but keeping the collocation:\n1) They caused serious damage to the ecosystem.\n→ Serious damage ___ to the ecosystem.\n2) She gave a promise to help.\n→ A promise ___ to help.\n3) The policy had a major impact.\n→ A major impact ___ by the policy.",
+        "level": "Базовый"
+      },
+      {
+        "number": 17,
+        "body": "Complete the sentences using appropriate collocations (based on BNC):\n1) Researchers ___ a survey on climate effects.\n2) The leader ___ a speech at the conference.\n3) Volunteers ___ part in the cleanup.",
+        "level": "Базовый"
+      },
+      {
+        "number": 18,
+        "body": "Choose the correct collocation according to corpus usage:\n1) to ___ harm (do / cause)\n2) to ___ a risk (run / take)\n3) to ___ a living (earn / make)",
+        "level": "Базовый"
+      },
+      {
+        "number": 19,
+        "body": "Rephrase the sentences using a suitable collocation from the BNC:\n1) The storm was very powerful.\n→ It was a ___ storm.\n2) They succeeded after many attempts.\n→ They ___ success after many attempts.",
+        "level": "Базовый"
+      },
+      {
+        "number": 20,
+        "body": "Match the nouns with the verbs they typically collocate with (based on BNC):",
+        "level": "Повышенный"
+      },
+      {
+        "number": 21,
+        "body": "Fill in the gaps with a suitable collocation (Based on BNC):\n1) The AI system ___ errors in predictions.\n2) Teachers ___ feedback to students.\n3) The project ___ costs significantly.",
+        "level": "Средний"
+      },
+      {
+        "number": 22,
+        "body": "Transform into questions using collocations:\n1) They ignored the warnings.\n→ ___ they ___ the warnings?\n2) The company reduced emissions.\n→ ___ the company ___ emissions?",
+        "level": "Средний"
+      },
+      {
+        "number": 23,
+        "body": "Choose the appropriate adjective/noun to form a collocation:\n1) ___ rain (heavy / strong)\n2) ___ advantage (take / gain)\n3) to ___ advantage (take / make)",
+        "level": "Средний"
+      },
+      {
+        "number": 24,
+        "body": "Complete the mini-dialogue with collocations (based on BNC):\nA: The experiment failed again.\nB: Don't worry, we can ___ and try again.\nA: Yes, let's ___ a new approach.",
+        "level": "Средний"
+      },
+      {
+        "number": 25,
+        "body": "Replace the highlighted words with collocations from BNC.\n1) She ___ in the test.\n2) The team ___ well.",
+        "level": "Средний"
+      },
+      {
+        "number": 26,
+        "body": "Rephrase using passive voice with collocations:\n1) They launched a campaign.\n→ A campaign ___.\n2) Experts analyzed the samples.\n→ The samples ___.",
+        "level": "Средний"
+      },
+      {
+        "number": 27,
+        "body": "Group the collocations by theme (Environment, Education, Tech — based on BNC):\nEnvironment: ___, ___.\nEducation: ___.\nTech: ___.",
+        "level": "Средний"
+      },
+      {
+        "number": 28,
+        "body": "Translate from Russian and add a collocation (based on BNC):\n1) Учёные провели эксперимент. → Scientists ___ an experiment.\n2) Правительство ввело правила. → The government ___ rules.",
+        "level": "Средний"
+      },
+      {
+        "number": 29,
+        "body": "Fill in:\n1) strong ___\n2) break a ___\n3) face a ___",
+        "level": "Средний"
+      },
+      {
+        "number": 30,
+        "body": "Choose:\n1) to ___ business (do / make)\n2) to ___ friends) (make / do)\n3) to ___ harm (cause / do)",
+        "level": "Базовый"
+      },
+      {
+        "number": 31,
+        "body": "Rephrase:\n1) The results ___ everyone.\n2) He ___ hard on robotics.",
+        "level": "Средний"
+      },
+      {
+        "number": 32,
+        "body": "Match the nouns with the verbs they typically collocate with (based on BNC):",
+        "level": "Повышенный"
+      },
+      {
+        "number": 33,
+        "body": "Complete story gaps (BNC-based):\n1) The storm brought ___ rain.\n2) Scientists ___ data to predict it.\n3) They urged to ___ immediate action.",
+        "level": "Средний"
+      },
+      {
+        "number": 34,
+        "body": "Verb choice:\n1) to ___ fun (have / make)\n2) to ___ sense (make / do)\n3) to ___ damage (inflict / cause)",
+        "level": "Базовый"
+      },
+      {
+        "number": 35,
+        "body": "Translate the sentences using collocations:\n1) После тренировки результаты улучшились. → Results ___ after training.\n2) Обсуждение привело к консенсусу. → The discussion led to ___.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 36,
+        "body": "Fill in the gaps:\n1) The robot ___ a fault\n2) We need to ___ repairs\n3) It will ___ time",
+        "level": "Повышенный"
+      },
+      {
+        "number": 37,
+        "body": "Transform to negative:\n1) They reached a verdict. → They didn't ___.\n2) The policy bore fruit. → The policy didn't ___. (",
+        "level": "Повышенный"
+      },
+      {
+        "number": 38,
+        "body": "Choose an appropriate word for each phrase:\n1) to ___ ethical dilemma (face / meet)\n2) to ___ moral choice (make / do)\n3) to ___ tech breakthrough (achieve / gain)",
+        "level": "Базовый"
+      },
+      {
+        "number": 39,
+        "body": "Complete a mini-dialogue using collocation:\nA: The climate is changing fast.\nB: Yes, we must ___ steps.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 40,
+        "body": "Put each phrase where it suits:\n1) There is ___ of climate change.\n2) She promised to ___.\n3) This policy will ___.\na - meet a need; b - strong evidence; c - keep a secret",
+        "level": "Базовый"
+      },
+      {
+        "number": 41,
+        "body": "Fill in the gaps with a suitable collocation (Based on BNC):\n1) The scientist ___ a discovery in renewable energy.\n2) Citizens ___ a petition against deforestation.\n3) The conference ___ a lively debate.\n4) We should ___ advantage of this opportunity.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 42,
+        "body": "Rephrase the sentences using the collocations in the BNC:\n1) The data showed clear patterns.\n→ The data ___ clear patterns.\n2) They started a new initiative.\n→ They ___ a new initiative.",
+        "level": "Средний"
+      },
+      {
+        "number": 43,
+        "body": "Choose the appropriate verb to form a normative collocation:\n1) to ___ a contribution (make / do)\n2) to ___ a comparison (draw / make)\n3) to ___ a prediction (make / do)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 44,
+        "body": "Fill in the gap with the missing part of the collocation based on the corpus examples.\n1) raise ___\n2) bear ___\n3) pose a ___",
+        "level": "Средний"
+      },
+      {
+        "number": 45,
+        "body": "Replace the highlighted words with collocations.\n1) The policy helped the environment.\n→ The policy ___ the environment.\n2) Researchers studied the phenomenon carefully.\n→ Researchers ___ the phenomenon carefully.",
+        "level": "Средний"
+      },
+      {
+        "number": 46,
+        "body": "Rephrase the sentences by changing the grammatical form, but keeping the collocation:\n1) The team launched an investigation.\n→ An investigation ___ by the team.\n2) The results bore fruit after years.\n→ Fruit ___ after years.\n3) They drew valuable lessons from failure.\n→ Valuable lessons ___ from failure.",
+        "level": "Средний"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Нормативная сочетаемость слов",
+    "description": "Задания этого блока направлены на преодоление интерференции русского языка и формирование навыков нормативной сочетаемости лексических единиц.",
+    "exercises": [
+      {
+        "number": 1,
+        "body": "Correct the mistakes using the BNC:\nShe did a decision quickly.\nHe paid a mistake during the exam.\nThey did progress in learning English.\nThe teacher gave attention to the problem.\nThe researchers did research on this topic.",
+        "level": "Базовый"
+      },
+      {
+        "number": 2,
+        "body": "Choose a normative collocation option. Confirm your choice with examples from the British National Corpus.\nShe ___ a decision after the meeting.\n a) did\n b) made\nThe company ___ progress in recent years.\n a) did\n b) made\nThe students ___ attention to the instructions.\n a) gave\n b) paid",
+        "level": "Повышенный"
+      },
+      {
+        "number": 3,
+        "body": "Correct the mistake and briefly explain why this option is non-normative, based on the BNC.\nHe did an effort to finish the task.\nThey made research on this topic.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 4,
+        "body": "Read the sentence, find and correct lexical and grammatical mistakes using the BNC .\nThe students did progress during the course and took a decision to make more efforts. The teacher gave attention to their mistakes.",
+        "level": "Базовый"
+      },
+      {
+        "number": 5,
+        "body": "Choose one example from the British National Corpus, confirming the correctness of the following collocations:\nmake a decision, make progress, pay attention",
+        "level": "Средний"
+      },
+      {
+        "number": 6,
+        "body": "Compare the use of the following combinations in BNC and determine which one is normative:\ndo a mistake / make a mistake\ngive attention / pay attention",
+        "level": "Средний"
+      },
+      {
+        "number": 7,
+        "body": "Correct Russian interference errors. Rewrite full sentences.\n1) We conducted a meeting yesterday.\n2) She raised a question in class.\n3) They discussed about the problem.",
+        "level": "Средний"
+      },
+      {
+        "number": 8,
+        "body": "Choose the correct verb from brackets. Write the full sentence.\n1) You need to ___ homework tonight. (make/do)\n2) They ___ a photo on vacation. (made/took)\n3) We should ___ business carefully. (make/do)",
+        "level": "Базовый"
+      },
+      {
+        "number": 9,
+        "body": "Find preposition mistakes. Correct and explain.\n1) I wait you at school.\n2) She sympathized his problem.\n3) We think about the answer.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 10,
+        "body": "Read the sentences. Mark normative combinations and correct wrong ones.\n1) He did business with partners.\n2) She made friends quickly.\n3) They put attention to details.",
+        "level": "Средний"
+      },
+      {
+        "number": 11,
+        "body": "Correct verbs influenced by Russian logic. Write correct forms.\n1) The price raised suddenly.\n2) We entered in the building.\n3) She married with him.",
+        "level": "Базовый"
+      },
+      {
+        "number": 12,
+        "body": "Choose normative verb for each noun (BNC). Write the combination.\n1) to ___ harm (cause/do)\n2) to ___ a party (go/have)\n3) to ___ advantage (take/gain)",
+        "level": "Базовый"
+      },
+      {
+        "number": 13,
+        "body": "Add missing preposition. Explain why it's required (BNC pattern).\n1) depend ___ something\n2) agree ___ someone\n3) interested ___ topic",
+        "level": "Повышенный"
+      },
+      {
+        "number": 14,
+        "body": "Replace wrong combination with BNC normative one. Rewrite sentence.\n1) They put attention to safety.\n2) He did a promise.\n3) We accepted agreement.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 15,
+        "body": "Write your own sentence using each BNC collocation (similar structure).\ntake part\ncarry out\ndraw conclusion",
+        "level": "Базовый"
+      },
+      {
+        "number": 16,
+        "body": "Choose correct verb for context. Justify with BNC usage.\n1) I'll ___ a book to class. (bring/take)\n2) Please ___ your homework home. (bring/take)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 17,
+        "body": "Remove extra preposition (Russian interference).\n1) I entered in the room.\n2) We discussed about climate.\n3) She married with John.",
+        "level": "Базовый"
+      },
+      {
+        "number": 18,
+        "body": "Choose verb from brackets. Write full sentence.\n1) You should ___ advantage now. (take/gain)\n2) They ___ care of animals. (make/take)",
+        "level": "Базовый"
+      },
+      {
+        "number": 19,
+        "body": "Correct the verb. Rewrite full sentence.\n1) \"She did a promise to help.\"\n2) \"They took measures wisely.\"",
+        "level": "Средний"
+      },
+      {
+        "number": 20,
+        "body": "Which verb goes with \"music\" (BNC)? Write combinations.\n1) ___ to music (hear/listen)\n2) ___ a song (hear/sing)",
+        "level": "Базовый"
+      },
+      {
+        "number": 21,
+        "body": "Replace verb with normative one.\n1) We accepted agreement.\n2) She raised question.",
+        "level": "Средний"
+      },
+      {
+        "number": 22,
+        "body": "Choose correct adjective for noun (BNC). Explain difference.\n1) ___ rain (strong/heavy)\n2) ___ wind (heavy/strong)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 23,
+        "body": "Choose what is correct and why.\n1) do sense\n2) make sense",
+        "level": "Средний"
+      },
+      {
+        "number": 24,
+        "body": "Correct preposition error.\n1) She married with him.\n2) I agree to you.",
+        "level": "Средний"
+      },
+      {
+        "number": 25,
+        "body": "Write sentence with BNC collocation.\n1) carry out research\n2) run experiments",
+        "level": "Базовый"
+      },
+      {
+        "number": 26,
+        "body": "Which verb with \"lie\"? Write combination.\n1) ___ a lie (say/tell)\n2) ___ the truth (say/tell)",
+        "level": "Базовый"
+      },
+      {
+        "number": 27,
+        "body": "Correct verb for noun.\n1) \"They made damage.\"\n2) \"He did noise.\"",
+        "level": "Средний"
+      },
+      {
+        "number": 28,
+        "body": "Choose the correct time adverb (BNC).\n1) ___ time (in/on)\n2) ___ the end (at/in)",
+        "level": "Средний"
+      },
+      {
+        "number": 29,
+        "body": "Replace preposition.\n1) think ___ solution (about/of)\n2) depend ___ luck (from/on)",
+        "level": "Средний"
+      },
+      {
+        "number": 30,
+        "body": "Which verb with these nouns (BNC)? Write ALL combinations.\n1) ___ the door (close/shut)\n2) ___ a meeting (conduct/hold)\n3) ___ an exam (do/take)\n4) ___ a noise (do/make)\n5) ___ shopping (go/do)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 31,
+        "body": "Correct interview verbs. Rewrite ALL sentences.\n1) She did interview.\n2) He took interview.\n3) They made interview.\n4) She held interview.\n5) We did a survey.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 32,
+        "body": "Explain difference (BNC usage). Write sentences for ALL pairs.\nborrow / lend\nbring / take\nraise / rise\nhear / listen",
+        "level": "Повышенный"
+      },
+      {
+        "number": 33,
+        "body": "Correct ALL mistakes in these texts.\n1) \"We did progress and took measures.\"\n2) \"She raised question yesterday.\"\n3) \"They entered in the room.\"\n4) \"I wait you here.\"\n5) \"He did business well.\"",
+        "level": "Повышенный"
+      },
+      {
+        "number": 34,
+        "body": "Write sentences with these BNC collocations.\n1) run a risk\n2) draw a conclusion\n3) take measures\n4) pay attention\n5) make advances",
+        "level": "Повышенный"
+      },
+      {
+        "number": 35,
+        "body": "Choose correct verb for ALL these nouns (BNC).\n1) ___ a problem (raise/arise)\n2) ___ harm (do/cause)\n3) ___ friends (do/make)\n4) ___ research (do/conduct)\n5) ___ progress (do/make)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 36,
+        "body": "Correct prepositions after these verbs.\n1) agree ___ you (to/with)\n2) depend ___ luck (from/on)\n3) think ___ solution (about/of)\n4) sympathize ___ him (to/with)\n5) wait ___ bus (at/for)",
+        "level": "Средний"
+      },
+      {
+        "number": 37,
+        "body": "Choose direction verbs (BNC home examples).\n1) ___ home (go/come)\n2) ___ to work (go/come)\n3) ___ back home (go/come)\n4) ___ to party (go/come)\n5) ___ to school (go/come)",
+        "level": "Базовый"
+      },
+      {
+        "number": 38,
+        "body": "Replace wrong pressure verbs with BNC normative ones.\n1) They put pressure on us.\n2) We made pressure on policy.\n3) She did pressure on team.\n4) They took pressure off.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 39,
+        "body": "Write BNC-style example sentences for these collocations.\n1) draw conclusion\n2) reach agreement\n3) make breakthrough\n4) take action\n5) pay price",
+        "level": "Повышенный"
+      },
+      {
+        "number": 40,
+        "body": "Correct ALL complex sentence errors.\n1) \"Students did progress and gave lecture.\"\n2) \"She raised question, did research, took decision.\"\n3) \"They entered in room, discussed about plan.\"\n4) \"We wait you, think about solution.\"\n5) \"He did business, made friends, did progress.\"",
+        "level": "Повышенный"
+      },
+      {
+        "number": 41,
+        "body": "Correct these NON-STANDARD weather combinations. Rewrite full sentences using BNC norms.\n1) It made a storm yesterday.\n2) The strong rain flooded streets.\n3) Temperatures fell down rapidly.\n4) We had fog all morning.\n5) Snow made 20 cm deep.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 42,
+        "body": "Choose correct FINANCIAL verb combinations (BNC business corpus). Write full sentence.\n1) The company will ___ profits this year. a) earn b) win\n2) Investors ___ a loss last quarter. a) incurred b) got\n3) She ___ an investment wisely. a) made b) placed\n4) They ___ the budget deadline. a) met b) did\n5) Bank ___ interest rates. a) grew b) raised",
+        "level": "Повышенный"
+      },
+      {
+        "number": 43,
+        "body": "Correct EMOTION verb errors. Explain BNC preference. One sentence is correct.\n1) I raised interest in the book.\n2) She felt anger at him.\n3) He did disappointment.\n4) They had fear of failure.\n5) We made joy at the news.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 44,
+        "body": "Fix TRAVEL preposition errors. Rewrite sentences. One sentence is correct.\n1) I travel by plane to London.\n2) She arrived to the airport late.\n3) We go with train to Paris.\n4) Take left turn at lights.\n5) He stayed at Paris 3 days.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 45,
+        "body": "Choose correct FOOD/Cooking collocations (BNC recipes). Write combinations ONLY.\n1) ___ vegetables (cut/chop)\n2) ___ bread (chop/slice)\n3) ___ water (cook/boil)\n4) ___ eggs (boil/fry)\n5) ___ cake (cook/bake)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 46,
+        "body": "Correct SPORTS verb+noun errors (not \"do/ play\"). Rewrite full sentences. One sentence is correct.\n1) She did tennis yesterday.\n2) They made a goal in football.\n3) He did running every morning.\n4) The team won the match easily.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 47,
+        "body": "Fix TECHNOLOGY verb combinations (Russian \"conduct/load\"). Explain BNC (1 sentence).\n1) Please load the software now.\n2) He did backup of files.\n3) She entered data in system.\n4) We had crash of computer.\n5) They conducted update.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 48,
+        "body": "Correct HEALTH/MEDICAL collocations (not \"do/make illness\"). Write corrected forms ONLY.\n1) ___ flu (get/catch)\n2) ___ temperature (do/have)\n3) ___ medicine (do/take)\n4) ___ injection (do/make)\n5) ___ diet (do/go on)",
+        "level": "Повышенный"
+      },
+      {
+        "number": 49,
+        "body": "Fix RELATIONSHIP verb+preposition errors. Rewrite ALL sentences.\n1) She depended from her family.\n2) He married with Anna last year.\n3) They discussed on their future.\n4) I sympathize to your loss.\n5) We believed on his promises.",
+        "level": "Повышенный"
+      },
+      {
+        "number": 50,
+        "body": "Correct WORK/OFFICE combinations (not Russian \"do/make meeting\"). Write full corrected sentences.\n1) Boss did a meeting at 9am.\n2) She made phone call to a client.\n3) They did deadline yesterday.\n4) He had break for lunch.\n5) Team did project successfully.",
+        "level": "Повышенный"
+      }
+    ]
+  }
+];
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
